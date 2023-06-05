@@ -8,19 +8,28 @@ public class MemoVO {
     private LocalDateTime lastUpdatedDateTime;// 작성일(컴퓨터 시스템의 날짜와 시간을 자동으로 저장)
 
     // 생성자
-    public MemoVO(String writerName, String pass, String content) {
+    public MemoVO(int memoNum, String writerName, String pass, String content) {
+        this.memoNum = memoNum;
         this.writerName = writerName;
         this.pass = pass;
         this.content = content;
     }
-    static MemoVO newInstance(String writerName, String pass, String content){
-        return new MemoVO(writerName, pass, content);
+    static MemoVO newInstance(int memoNum, String writerName, String pass, String content){
+        return new MemoVO(memoNum, writerName, pass, content);
     }
     // 수정 날짜 시간 갱신
     void update(String content) {
         this.content = content;
         this.lastUpdatedDateTime = LocalDateTime.now();
     }
+    // 배열 요소 초기화
+    void delete() {
+        this.memoNum=0;
+        this.writerName="";
+        this.pass="";
+        this.content="";
+    }
+
     public int getMemoNum() {
         return memoNum;
     }
