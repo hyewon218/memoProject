@@ -113,6 +113,7 @@ public class MemoList {
             System.out.println("비밀번호가 일치하지 않습니다.");
             return;
         }
+        // 중복되어 변경된 메모 번호는 selectedNumber+1을 해줘야한다...
         for (int i = selectedNumber; i <= this.noteLength; i++) {
             memoVO[i - 1] = memoVO[i];
 
@@ -144,8 +145,8 @@ public class MemoList {
             }
             int num = memo01.getMemoNum();
 
-            String memo = String.format("방번호:%d 메모번호:%d 작성자이름:%s 작성내용:%s", i, num, memo01.getWriterName(),
-                    memo01.getContent());
+            String memo = String.format("방번호: %d 메모번호: %d 작성자이름: %s 작성내용: %s 작성날짜: %s ", i, num, memo01.getWriterName(),
+                    memo01.getContent(),memo01.getLastUpdatedDateTime());
             System.out.println(memo);
         }
         System.out.println("");

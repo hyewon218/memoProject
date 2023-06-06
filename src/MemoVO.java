@@ -13,6 +13,8 @@ public class MemoVO {
         this.writerName = writerName;
         this.pass = pass;
         this.content = content;
+        this.lastUpdatedDateTime = LocalDateTime.now();
+
     }
     static MemoVO newInstance(int memoNum, String writerName, String pass, String content){
         return new MemoVO(memoNum, writerName, pass, content);
