@@ -1,6 +1,7 @@
 import java.util.Scanner;
 
 public class MemoList {
+    // for문으로 메모장의 개수만큼 반복해야 하므로 noteLength라는 변수를 만들어 0으로 초기화한다
     private int noteLength = 0;
     private final MemoVO[] memoVO;
     //노트 크기 지정
@@ -29,10 +30,23 @@ public class MemoList {
         System.out.println("내용을 입력해주세요");
         String content = scanner.nextLine();
 
-        //System.out.println(noteLength);
         // memoVO.[0] = MemoVO.newInstance(1, 최혜원, 123, 메모장입니다.);
         memoVO[this.noteLength++] = MemoVO.newInstance(noteLength, writerName, pass, content);
-        //System.out.println(noteLength);
+
+        // 방 하나하나 확인하기 위해 for문 반복문 필요!!!
+        for (int i = 1; i < this.noteLength; i++) {
+            MemoVO memo01 = memoVO[i];
+            if (memo01 == null) {
+                continue;
+            }
+            // 메모 삭제 후 입력할 시 메모 번호가 중복됨
+            // 메모 번호가 중복된다면 메모 번호 1 크게 해서 인스턴스 초기화
+            int num = memo01.getMemoNum();
+            if (memoVO[i - 1].getMemoNum() == memoVO[i].getMemoNum()) {
+                num++;
+                memoVO[i] = MemoVO.newInstance(num, writerName, pass, content);
+            }
+        }
 
         System.out.println("메모가 작성되었습니다");
         System.out.println("");
@@ -75,6 +89,8 @@ public class MemoList {
     }
 
     // 3. 삭제 기능
+    // 새 메모를 추가하면 노트 배열의 마지막에 들어가는 방식이기에 특정 메모를 삭제하면
+    // 그 메모만 삭제되는 것이 아니라 그 다음 번호부터 숫자를 1씩 낮춰 보여지도록
     public void deleteNote() {
         System.out.println("");
         Scanner scanner = new Scanner(System.in);
@@ -97,8 +113,14 @@ public class MemoList {
             System.out.println("비밀번호가 일치하지 않습니다.");
             return;
         }
-        memo01.delete();
-        noteLength--;
+        for (int i = selectedNumber; i <= this.noteLength; i++) {
+            memoVO[i - 1] = memoVO[i];
+
+            if (i == this.noteLength) {
+                memoVO[i] = null;
+            }
+        }
+        this.noteLength -= 1;
 
         System.out.println("메모가 삭제되었습니다");
         System.out.println("");
@@ -111,19 +133,20 @@ public class MemoList {
     public void printAllNotes() {
         System.out.println("");
         //System.out.println(noteLength);
-        if (0 == this.noteLength) {
+        if (this.noteLength == 0) {
             System.out.println("작성된 메모가 없습니다");
-            System.out.println("");
             return;
         }
         for (int i = 0; i < this.noteLength; i++) {
             MemoVO memo01 = memoVO[i];
-            int memoNum = memo01.getMemoNum();
-            //System.out.println(memoNum);
-            String memo = String.format("번호:%d 작성자이름:%s 작성내용:%s", memo01.getMemoNum(), memo01.getWriterName(),
+            if (memo01 == null) {
+                continue;
+            }
+            int num = memo01.getMemoNum();
+
+            String memo = String.format("방번호:%d 메모번호:%d 작성자이름:%s 작성내용:%s", i, num, memo01.getWriterName(),
                     memo01.getContent());
             System.out.println(memo);
-
         }
         System.out.println("");
     }

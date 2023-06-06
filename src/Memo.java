@@ -34,7 +34,7 @@ public class Memo {
                 // 5. 종료
             } else if (5 == selectedNumber) {
 
-                //break;
+                break;
             } else {
                 System.out.println("");
                 System.out.println("번호를 다시입력해주세요");

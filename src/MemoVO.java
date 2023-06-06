@@ -22,13 +22,6 @@ public class MemoVO {
         this.content = content;
         this.lastUpdatedDateTime = LocalDateTime.now();
     }
-    // 배열 요소 초기화
-    void delete() {
-        this.memoNum=0;
-        this.writerName="";
-        this.pass="";
-        this.content="";
-    }
 
     public int getMemoNum() {
         return memoNum;
